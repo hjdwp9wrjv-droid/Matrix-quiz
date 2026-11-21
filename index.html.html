@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATRIX QUEST | แบบทดสอบเรื่องเมทริกซ์</title>
+<style>
+:root{
+  --purple:#7545b8;--purple2:#a85bc5;--cyan:#35c9e6;--pink:#ff7198;
+  --ink:#29334a;--muted:#778198;--paper:#fff;--line:#e8eaf2;
+  --bg:#f5f2fb;--green:#24a77a;--red:#e85d70;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  background:
+    radial-gradient(circle at 10% 5%,rgba(190,126,231,.22),transparent 28%),
+    radial-gradient(circle at 95% 90%,rgba(57,205,230,.17),transparent 25%),
+    linear-gradient(145deg,#f4effb,#eef9fc);
+}
+.topbar{
+  height:68px;background:#25232c;color:white;display:flex;align-items:center;
+  justify-content:space-between;padding:0 max(5vw,22px);box-shadow:0 4px 18px #24203922;
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:750;letter-spacing:.3px}
+.logo{width:37px;height:37px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),#b4f5ff);display:grid;place-items:center;color:#39205d;font-weight:900}
+.top-tag{font-size:12px;color:#ddd5ec;border:1px solid #62596d;border-radius:20px;padding:6px 12px}
+main{width:min(1050px,94%);margin:30px auto 55px}
+.hero{
+  position:relative;overflow:hidden;border-radius:23px;padding:28px 32px;color:white;
+  background:linear-gradient(115deg,#7041ad,#9d54c2 55%,#40c7dc);
+  box-shadow:0 18px 40px #7147a733;
+}
+.hero:after{content:"∑  ×  +";position:absolute;right:22px;top:8px;font-size:76px;font-weight:900;color:#ffffff18;letter-spacing:8px;transform:rotate(-10deg)}
+.eyebrow{font-size:12px;letter-spacing:2px;font-weight:800;color:#f4e7ff}
+.hero h1{font-size:clamp(27px,5vw,42px);line-height:1.15;margin:8px 0}
+.hero p{margin:0;color:#f6edff}
+.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(240px,.8fr);gap:18px;margin-top:20px;align-items:start}
+.card{background:var(--paper);border:1px solid #ffffff;border-radius:18px;padding:22px;box-shadow:0 10px 30px #45316a12}
+.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+.card-title h2{font-size:17px;margin:0}
+.pill{font-size:12px;font-weight:750;padding:6px 11px;border-radius:30px;background:#f1e9fb;color:#7446a8}
+.progress-line{height:8px;border-radius:10px;background:#eeeaf4;overflow:hidden;margin:12px 0 20px}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .25s}
+.question-number{font-size:13px;color:var(--muted);font-weight:700}
+.question{font-size:19px;font-weight:750;line-height:1.55;margin:10px 0 18px}
+.matrix{
+ display:inline-flex;align-items:center;vertical-align:middle;margin:7px 3px;
+ padding:5px 12px;position:relative;font-family:Cambria,Georgia,serif;font-size:19px;line-height:1.5;
+}
+.matrix:before,.matrix:after{content:"";position:absolute;top:0;bottom:0;width:7px;border-top:2px solid #7650aa;border-bottom:2px solid #7650aa}
+.matrix:before{left:0;border-left:2px solid #7650aa}
+.matrix:after{right:0;border-right:2px solid #7650aa}
+.matrix table{border-collapse:collapse;text-align:center}
+.matrix td{padding:0 8px;min-width:17px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.option{
+ background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;
+ text-align:left;display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--ink);
+ font:inherit;transition:.16s;min-height:58px;
+}
+.option:hover{border-color:#a77bd2;background:#fbf8ff;transform:translateY(-1px)}
+.option.selected{border-color:var(--purple);background:#f5effc;box-shadow:0 0 0 2px #7545b81a}
+.option.correct{border-color:var(--green);background:#effaf5}
+.option.wrong{border-color:var(--red);background:#fff2f4}
+.letter{width:29px;height:29px;flex:0 0 29px;border-radius:9px;display:grid;place-items:center;background:#f0ebf7;color:#7245a6;font-size:13px;font-weight:800}
+.option.correct .letter{background:#d7f3e7;color:#147b56}
+.option.wrong .letter{background:#ffe0e5;color:#b33d50}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.btn{border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer}
+.btn-primary{background:linear-gradient(100deg,var(--purple),#8e5ac5);color:white;box-shadow:0 6px 15px #7545b833}
+.btn-secondary{background:#f0edf5;color:#68577d}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.side{display:grid;gap:16px}
+.timer-card{text-align:center;background:linear-gradient(145deg,#fff,#f8f3ff)}
+.timer-label{font-size:12px;color:var(--muted);font-weight:750;letter-spacing:1px}
+.timer{font-size:45px;font-weight:850;line-height:1.3;color:var(--purple);font-variant-numeric:tabular-nums}
+.timer.warning{color:var(--red)}
+.timer-track{height:7px;background:#eee8f5;border-radius:8px;overflow:hidden;margin-top:8px}
+.timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width 1s linear}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:13px;background:#faf9fc;border-radius:12px}
+.stat small{display:block;color:var(--muted);font-size:11px}
+.stat strong{font-size:22px;color:var(--purple)}
+.mini-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.dot{aspect-ratio:1;border-radius:8px;background:#f0edf5;color:#81748f;display:grid;place-items:center;font-size:12px;font-weight:750}
+.dot.current{background:#7545b8;color:white}
+.dot.done{background:#dff5ec;color:#16845b}
+.feedback{display:none;margin-top:16px;border-radius:12px;padding:14px 16px;line-height:1.55}
+.feedback.show{display:block}
+.feedback.good{background:#effaf5;border:1px solid #c8ebdb;color:#176d50}
+.feedback.bad{background:#fff2f4;border:1px solid #f4cbd2;color:#9f394b}
+.feedback strong{display:block;margin-bottom:4px}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.result-score{font-size:54px;color:var(--purple);font-weight:900;line-height:1.2}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.result-box{background:#f8f5fc;border-radius:12px;padding:14px}
+.result-box strong{display:block;font-size:24px;color:var(--purple)}
+.hidden{display:none!important}
+.footer{text-align:center;color:#938aa1;font-size:12px;margin-top:22px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.side .progress-card{grid-column:1/-1}.hero{padding:24px}.topbar{height:60px}}
+@media(max-width:480px){main{margin-top:18px}.options{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.card{padding:17px}.question{font-size:17px}.actions .btn{padding:11px 13px;font-size:14px}.hero:after{font-size:50px;right:5px;top:12px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><div class="logo">M</div><span>MATRIX QUEST</span></div>
+  <div class="top-tag">MATH CHALLENGE · 5 QUESTIONS</div>
+</div>
+<main>
+  <header class="hero">
+    <div class="eyebrow">THINK · SOLVE · CONQUER</div>
+    <h1>ภารกิจพิชิตโลกเมทริกซ์</h1>
+    <p>ทดสอบความเข้าใจเรื่องเมทริกซ์ 5 ข้อ · ข้อละ 1 นาที</p>
+  </header>
+
+  <div class="layout" id="quizLayout">
+    <section class="card">
+      <div class="card-title">
+        <h2>แบบทดสอบเรื่องเมทริกซ์</h2>
+        <span class="pill" id="levelPill">QUESTION 01 / 5</span>
+      </div>
+      <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
+      <div id="questionArea">
+        <div class="question-number" id="questionNumber">คำถามที่ 1</div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <div class="actions">
+          <button class="btn btn-secondary" id="restartBtn" type="button">เริ่มใหม่</button>
+          <button class="btn btn-primary" id="nextBtn" type="button" disabled>ยืนยันคำตอบ</button>
+        </div>
+      </div>
+      <div class="result" id="resultArea">
+        <div class="eyebrow" style="color:#8a61b2">MISSION COMPLETE</div>
+        <h2>จบภารกิจแล้ว!</h2>
+        <div class="result-score" id="finalScore">0/5</div>
+        <p id="resultMessage">มาดูผลการทำแบบทดสอบกัน</p>
+        <div class="result-grid">
+          <div class="result-box"><strong id="correctCount">0</strong><small>ตอบถูก</small></div>
+          <div class="result-box"><strong id="wrongCount">0</strong><small>ตอบผิด/หมดเวลา</small></div>
+          <div class="result-box"><strong id="totalTime">0:00</strong><small>เวลาที่ใช้</small></div>
+        </div>
+        <button class="btn btn-primary" id="playAgainBtn" type="button">เล่นอีกครั้ง</button>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="card timer-card">
+        <div class="timer-label">TIME LEFT</div>
+        <div class="timer" id="timer">01:00</div>
+        <div class="timer-track"><div class="timer-bar" id="timerBar"></div></div>
+        <p class="note">เวลาต่อข้อ 60 วินาที</p>
+      </section>
+      <section class="card">
+        <div class="card-title"><h2>คะแนนของคุณ</h2><span class="pill">LIVE</span></div>
+        <div class="stats">
+          <div class="stat"><small>คะแนน</small><strong id="score">0</strong></div>
+          <div class="stat"><small>ตอบถูก</small><strong id="correct">0</strong></div>
+        </div>
+      </section>
+      <section class="card progress-card">
+        <div class="card-title"><h2>ความคืบหน้า</h2><span class="note" id="progressText">0 / 5</span></div>
+        <div class="mini-grid" id="questionDots"></div>
+      </section>
+    </aside>
+  </div>
+  <div class="footer">MATRIX QUEST · แบบทดสอบคณิตศาสตร์เรื่องเมทริกซ์</div>
+</main>
+
+<script>
+const questions = [  {
+    q:'เมทริกซ์ A = <span class="matrix"><table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr></table></span> มีมิติเท่าใด?',
+    options:['2 × 3','3 × 2','2 × 2','3 × 3'], answer:0,
+    explain:'เมทริกซ์มี 2 แถว และ 3 หลัก ดังนั้นมิติคือ 2 × 3'
+  },
+  {
+    q:'กำหนด A = <span class="matrix"><table><tr><td>2</td><td>−1</td></tr><tr><td>3</td><td>4</td></tr></table></span> และ B = <span class="matrix"><table><tr><td>1</td><td>5</td></tr><tr><td>−2</td><td>0</td></tr></table></span> จงหา A + B',
+    options:[
+      '<span class="matrix"><table><tr><td>3</td><td>4</td></tr><tr><td>1</td><td>4</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>1</td><td>−6</td></tr><tr><td>5</td><td>4</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>2</td><td>−5</td></tr><tr><td>−6</td><td>0</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>3</td><td>−5</td></tr><tr><td>1</td><td>4</td></tr></table></span>'
+    ], answer:0,
+    explain:'บวกสมาชิกตำแหน่งเดียวกัน: 2+1=3, −1+5=4, 3+(−2)=1 และ 4+0=4'
+  },
+  {
+    q:'กำหนด A = <span class="matrix"><table><tr><td>1</td><td>−2</td></tr><tr><td>0</td><td>3</td></tr></table></span> จงหา 3A',
+    options:[
+      '<span class="matrix"><table><tr><td>3</td><td>−6</td></tr><tr><td>0</td><td>9</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>1</td><td>−6</td></tr><tr><td>0</td><td>3</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>4</td><td>1</td></tr><tr><td>3</td><td>6</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>3</td><td>−2</td></tr><tr><td>0</td><td>3</td></tr></table></span>'
+    ], answer:0,
+    explain:'คูณสมาชิกทุกตัวของ A ด้วย 3 จึงได้ [[3, −6], [0, 9]]'
+  },
+  {
+    q:'จงหาดีเทอร์มิแนนต์ของ A = <span class="matrix"><table><tr><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td></tr></table></span>',
+    options:['5','8','11','−5'], answer:0,
+    explain:'det(A) = (2 × 4) − (3 × 1) = 8 − 3 = 5'
+  },
+  {
+    q:'กำหนด A = <span class="matrix"><table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>1</td></tr></table></span> และ B = <span class="matrix"><table><tr><td>2</td><td>0</td></tr><tr><td>1</td><td>4</td></tr></table></span> จงหา AB',
+    options:[
+      '<span class="matrix"><table><tr><td>4</td><td>8</td></tr><tr><td>7</td><td>4</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>3</td><td>2</td></tr><tr><td>4</td><td>5</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>2</td><td>8</td></tr><tr><td>6</td><td>4</td></tr></table></span>',
+      '<span class="matrix"><table><tr><td>4</td><td>4</td></tr><tr><td>7</td><td>8</td></tr></table></span>'
+    ], answer:0,
+    explain:'คูณแถวของ A กับหลักของ B: AB = [[1×2+2×1, 1×0+2×4], [3×2+1×1, 3×0+1×4]] = [[4,8],[7,4]]'
+  },
+
+];;
+
+let index=0, selected=null, score=0, correct=0, wrong=0;
+let timeLeft=60, timerId=null, locked=false, startedAt=0, elapsed=0;
+const $=id=>document.getElementById(id);
+function formatTime(s){return '00:'+String(s).padStart(2,'0')}
+function renderDots(){
+  $('questionDots').innerHTML=questions.map((_,i)=>`<div class="dot ${i<index?'done':i===index?'current':''}">${i+1}</div>`).join('');
+  $('progressText').textContent=`${index} / ${questions.length}`;
+}
+function renderQuestion(){
+  locked=false;selected=null;timeLeft=60;
+  $('timer').textContent='01:00';$('timer').classList.remove('warning');
+  $('timerBar').style.width='100%';
+  $('levelPill').textContent=`QUESTION ${String(index+1).padStart(2,'0')} / ${questions.length}`;
+  $('questionNumber').textContent=`คำถามที่ ${index+1}`;
+  $('questionText').innerHTML=questions[index].q;
+  $('options').innerHTML='';
+  questions[index].options.forEach((option,i)=>{
+    const b=document.createElement('button');b.type='button';b.className='option';
+    b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${option}</span>`;
+    b.addEventListener('click',()=>choose(i));$('options').appendChild(b);
+  });
+  $('feedback').className='feedback';$('feedback').innerHTML='';
+  $('nextBtn').disabled=true;$('nextBtn').textContent='ยืนยันคำตอบ';
+  $('progressFill').style.width=`${index/questions.length*100}%`;
+  renderDots();startTimer();
+}
+function choose(i){
+  if(locked)return;selected=i;
+  [...$('options').children].forEach((b,n)=>b.classList.toggle('selected',n===i));
+  $('nextBtn').disabled=false;
+}
+function startTimer(){
+  clearInterval(timerId);timerId=setInterval(()=>{
+    timeLeft--;
+    $('timer').textContent=formatTime(timeLeft);
+    $('timerBar').style.width=`${timeLeft/60*100}%`;
+    if(timeLeft<=10)$('timer').classList.add('warning');
+    if(timeLeft<=0){clearInterval(timerId);submitAnswer(true);}
+  },1000);
+}
+function submitAnswer(timeout=false){
+  if(locked)return;
+  if(selected===null&&!timeout)return;
+  locked=true;clearInterval(timerId);
+  const q=questions[index],isCorrect=selected===q.answer;
+  if(isCorrect){score+=1000;correct++;}else{wrong++;}
+  $('score').textContent=score.toLocaleString('th-TH');
+  $('correct').textContent=correct;
+  [...$('options').children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.answer)b.classList.add('correct');
+    else if(i===selected)b.classList.add('wrong');
+  });
+  const fb=$('feedback');fb.className='feedback show '+(isCorrect?'good':'bad');
+  fb.innerHTML=`<strong>${timeout?'หมดเวลา!':isCorrect?'ถูกต้อง! +1,000 คะแนน':'ยังไม่ถูกต้อง'}</strong>${timeout?'คำตอบที่ถูกต้องคือข้อ '+String.fromCharCode(65+q.answer)+'. ':isCorrect?'':'คำตอบที่ถูกต้องคือข้อ '+String.fromCharCode(65+q.answer)+'. '}${q.explain}`;
+  $('nextBtn').disabled=false;
+  $('nextBtn').textContent=index===questions.length-1?'ดูผลคะแนน':'ข้อต่อไป';
+}
+function nextQuestion(){
+  if(!locked)return;
+  if(index<questions.length-1){index++;renderQuestion();}
+  else finishQuiz();
+}
+function finishQuiz(){
+  clearInterval(timerId);elapsed=Math.floor((Date.now()-startedAt)/1000);
+  $('questionArea').classList.add('hidden');$('resultArea').classList.add('show');
+  $('progressFill').style.width='100%';$('progressText').textContent='10 / 5';
+  $('finalScore').textContent=`${correct}/${questions.length}`;
+  $('correctCount').textContent=correct;$('wrongCount').textContent=wrong;
+  $('totalTime').textContent=`${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
+  $('resultMessage').textContent=correct===questions.length?'ยอดเยี่ยม! คุณเป็น MATRIX MASTER':correct>=Math.ceil(questions.length*.7)?'ทำได้ดีมาก! ทบทวนอีกนิดแล้วจะเก่งยิ่งขึ้น':correct>=Math.ceil(questions.length*.4)?'ทำได้ดี ลองทบทวนเฉลยและฝึกอีกครั้ง':'อย่าเพิ่งท้อ! การฝึกฝนจะช่วยให้เข้าใจเมทริกซ์มากขึ้น';
+  $('questionDots').innerHTML=questions.map((_,i)=>`<div class="dot ${i<correct?'done':''}">${i+1}</div>`).join('');
+}
+function restart(){
+  clearInterval(timerId);index=0;selected=null;score=0;correct=0;wrong=0;startedAt=Date.now();
+  $('score').textContent='0';$('correct').textContent='0';
+  $('questionArea').classList.remove('hidden');$('resultArea').classList.remove('show');
+  renderQuestion();
+}
+$('nextBtn').addEventListener('click',()=>locked?nextQuestion():submitAnswer());
+$('restartBtn').addEventListener('click',restart);
+$('playAgainBtn').addEventListener('click',restart);
+restart();
+</script>
+</body>
+</html>
